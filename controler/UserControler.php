@@ -15,7 +15,7 @@ $data = json_decode(file_get_contents('php://input'), true);
 
 switch ($method) {
     case 'POST':
-        echo $user->Create($data['name'], $data['email']);
+        echo $user->Create($data['name'], $data['email'], $data['password']);
         break;
 
     case 'GET':
@@ -23,7 +23,7 @@ switch ($method) {
         break;
 
     case 'PUT':
-        echo $user->Update($data['id'], $data['name'], $data['email']);
+        echo $user->Update($data['id'], $data['name'], $data['email'], $data['password']);
         break;
 
     case 'DELETE':
