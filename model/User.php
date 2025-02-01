@@ -11,17 +11,17 @@ class Users {
     }
 
     // Método para criar usuário
-    public function Create($name, $email) {
+    public function Create(string $name, string $email, string $password) {
 
         try {
 
-            if(empty($name) || empty($email)){
+            if(empty($name) || empty($email) || empty($password)){
             
                 throw new Exception("Name and Email are requered");
             }
 
-            $stmt = $this->pdo->prepare("INSERT INTO users (name, email) VALUES (?, ?)");
-            $stmt->execute([$name, $email]);
+            $stmt = $this->pdo->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
+            $stmt->execute([$name, $email, isset($password)]);
     
             return http_response_code(200);
 
@@ -31,7 +31,7 @@ class Users {
         }
     }
 
-    public function Read() {
+    public function Read(){
         try {
             $stmt = $this->pdo->prepare("SELECT * FROM users");
             $stmt->execute();
@@ -43,27 +43,31 @@ class Users {
         }
     }
 
-    public function Update($id, $name, $email) {
+    public function Update(int $id, string $name,string $email, string $password) {
 
         try {
-
-            if(empty($name) || empty($email)){
-
-                throw new Exception("Name and email are required");
+            // Verificar se os campos estão preenchidos
+            if(empty($name) || empty($email)) {
+                throw new Exception("Name and Email are required");
             }
-
-            $stmt = $this->pdo->prepare("UPDATE users SET name = ?, email = ? WHERE id = ?");
-            $stmt->execute([$name, $email, $id]);
-
-
+    
+            // Se a senha for passada e não for vazia, hash da senha
+            if (!empty($password)) {
+                $password = password_hash($password, PASSWORD_DEFAULT);
+            }
+    
+            // Atualizar o usuário
+            $stmt = $this->pdo->prepare("UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?");
+            $stmt->execute([$name, $email, $password, $id]);
+    
             return json_encode(['message' => 'User updated successfully']);
         } catch (PDOException $e) {
-
-            return json_encode(["Erro: SQL - This Email already exists in our dataBase " => $e->getCode()]);
+            return json_encode(["Error" => $e->getMessage()]);
         }
     }
     
-    public function Delete($id){
+    
+    public function Delete(int $id){
 
         try{
             $sql = "DELETE FROM users WHERE id = ?";
