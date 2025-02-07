@@ -1,15 +1,10 @@
 {
-    "name": "leo/projeto",
-    "description": "estoque",
     "autoload": {
         "psr-4": {
-            "Leo\\Projeto\\": "src/"
+            "\\": "./"
         }
     },
-    "authors": [
-        {
-            "name": "leonardo"
-        }
-    ],
-    "require": {}
+    "require": {
+        "slim/slim": "3.*"
+    }
 }
