@@ -1,32 +1,45 @@
 <?php
 
-// Configurar cabeçalho de resposta JSON
-header('Content-Type: application/json');
 
-require_once __DIR__ . '/../model/User.php'; // Caminho correto para sua classe
 
-// Criar instância da classe Users
-$user = new Users();
+class UserControler{
+    
+    // Construtor para configurar cabeçalho de resposta JSON
+    public function __construct() {
+        header('Content-Type: application/json');
+    }
 
-// Obter o método HTTP
-$method = $_SERVER['REQUEST_METHOD'];
-// Pegar os dados enviados (se existirem)
-$data = json_decode(file_get_contents('php://input'), true);
+    public function handleRequest() {
+        
+        $user = new Users();
+        
+        $method = $_SERVER['REQUEST_METHOD'];
 
-switch ($method) {
-    case 'POST':
-        echo $user->Create($data['name'], $data['email'], $data['password']);
-        break;
+        $data = json_decode(file_get_contents('php://input'), true);
 
-    case 'GET':
-        echo $user->Read();
-        break;
+        switch ($method) {
+            case 'POST':
+                echo $user->Create($data['name'], $data['email'], $data['password']);
+                break;
 
-    case 'PUT':
-        echo $user->Update($data['id'], $data['name'], $data['email'], $data['password']);
-        break;
+            case 'GET':
+                echo $user->Read();
+                break;
 
-    case 'DELETE':
-        echo $user->Delete($data['id']);
-        break;
+            case 'PUT':
+                echo $user->Update($data['id'], $data['name'], $data['email'], $data['password']);
+                break;
+
+            case 'DELETE':
+                echo $user->Delete($data['id']);
+                break;
+        }
+    }
 }
+
+$userController = new UserControler();
+$userController->handleRequest();
+
+
+
+?>
