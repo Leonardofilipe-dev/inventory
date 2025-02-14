@@ -19,26 +19,26 @@ class UserControler{
 
         switch ($method) {
             case 'POST':
-                echo $user->Create($data['name'], $data['email'], $data['password']);
+                return $user->Create($data['name'], $data['email'], $data['password']);
                 break;
 
             case 'GET':
-                echo $user->Read();
+                return $user->Read();
                 break;
 
             case 'PUT':
-                echo $user->Update($data['id'], $data['name'], $data['email'], $data['password']);
+                return $user->Update($data['id'], $data['name'], $data['email'], $data['password']);
                 break;
 
             case 'DELETE':
-                echo $user->Delete($data['id']);
+                return $user->Delete($data['id']);
                 break;
         }
     }
 }
 
 $userController = new UserControler();
-$userController->handleRequest();
+echo $userController->handleRequest();
 
 
 
