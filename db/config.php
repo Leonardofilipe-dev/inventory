@@ -1,19 +1,31 @@
 <?php
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use Dotenv\Dotenv;
+
 class Config
 {
-    const DB_NAME = 'inventory';
-    const USER_NAME = 'root';
-    const PASSWORD = '';
-    const HOST = 'localhost';
+    private static $pdo;
 
     public static function getConnection()
     {
-        try {
-            $pdo = new PDO('mysql:host=' . self::HOST . ';dbname=' . self::DB_NAME, self::USER_NAME, self::PASSWORD);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            return $pdo;
-        } catch (PDOException $e) {
-            die('ERROR: ' . $e->getMessage());
-        }
+            $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+            $dotenv->load();
+
+            $dbName = $_ENV['DB_NAME'];
+            $userName = $_ENV['DB_USER'];
+            $password = $_ENV['DB_PASS'];
+            $host = $_ENV['DB_HOST'];
+
+            try {
+                self::$pdo = new PDO("mysql:host=$host;dbname=$dbName", $userName, $password);
+                self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            } catch (PDOException $e) {
+                die('ERROR: ' . $e->getMessage());
+            }
+        
+        return self::$pdo;
     }
 }
+
