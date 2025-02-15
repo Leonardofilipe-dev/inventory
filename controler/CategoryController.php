@@ -4,12 +4,15 @@ class CategoryController
 {
 
 
-    public function handleRequestCategory(){
+    public function handleRequestCategory()
+    {
 
         $category = new Category;
 
-        //'REQUEST_METHOD'
-        //Which request method was used to access the page; e.g. 'GET', 'HEAD', 'POST', 'PUT' (Documentação PHP).
+        /**
+         * $method = $_SERVER['REQUEST_METHOD']; Which request method was used to access the page; e.g. 'GET', 'HEAD', 'POST', 'PUT' (Documentação PHP).
+         *  @data recebe os dados do Json_decode
+         */
 
         $method = $_SERVER['REQUEST_METHOD'];
 
@@ -25,7 +28,7 @@ class CategoryController
                 break;
 
             case 'PUT':
-                return $category->Update($data['id'] ,$data['name']);
+                return $category->Update($data['id'], $data['name']);
                 break;
 
             case 'DELETE':
@@ -40,5 +43,4 @@ class CategoryController
 }
 
 $category = new CategoryController();
-
 echo $category->handleRequestCategory();

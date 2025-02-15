@@ -2,17 +2,20 @@
 
 
 
-class UserControler{
-    
+class UserControler
+{
+
     // Construtor para configurar cabeçalho de resposta JSON
-    public function __construct() {
+    public function __construct()
+    {
         header('Content-Type: application/json');
     }
 
-    public function handleRequest() {
-        
+    public function handleRequest()
+    {
+
         $user = new Users();
-        
+
         $method = $_SERVER['REQUEST_METHOD'];
 
         $data = json_decode(file_get_contents('php://input'), true);
@@ -39,7 +42,3 @@ class UserControler{
 
 $userController = new UserControler();
 echo $userController->handleRequest();
-
-
-
-?>

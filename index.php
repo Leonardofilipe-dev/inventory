@@ -1,6 +1,6 @@
 <?php
 // require_once './model/User.php';
-// require_once './controler/UserControler.php';
+
 
 
 // use Psr\Http\Message\ServerRequestInterface as Request;
@@ -17,5 +17,3 @@
 // });
 
 // $app->run();
-
-
